@@ -1,6 +1,7 @@
 # Concepção de Personas e User Stories
 
 > **Documentação referente à Tarefa 2**
+
 > **Responsável:** Maria Luíza (MLuizaGS)
 
 ---
@@ -53,7 +54,7 @@ Trabalha durante o dia e acompanha o pai à distância. Tem uma rotina corrida e
 
 ## 📝 User Stories e Backlog Inicial
 
-Abaixo estão as histórias de usuário priorizadas para o planejamento ágil. A coluna **Estimativa (Planning Poker)** deve ser preenchida em conjunto por toda a equipe.
+Histórias de usuário priorizadas para o planejamento ágil.
 
 | Prioridade | Como [tipo de usuário]... | Desejo [funcionalidade]... | Para [objetivo]... | Estimativa (Planning Poker) |
 | :---: | :--- | :--- | :--- | :---: |

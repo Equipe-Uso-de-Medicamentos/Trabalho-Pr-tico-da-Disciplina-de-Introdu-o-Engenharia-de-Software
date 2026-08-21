@@ -2,16 +2,15 @@
 
 > **Documentação referente à Tarefa 5**  
 > **Responsável:** Gledson (Gledsons7)  
-> **Tema:** 7 - Saúde: Uso de Medicamentos  
 
 ---
 
-## 1. Visão Geral dos Protótipos
-Foram desenvolvidos três protótipos de alta fidelidade em formato HTML/CSS interativo para demonstrar os principais fluxos do aplicativo **IMED**. O design foi concebido com foco em acessibilidade visual, utilizando tipografia legível, botões de toque amplo e cores semânticas fortes para auxiliar o público idoso.
+## Visão Geral dos Protótipos
+Foram desenvolvidos três protótipos de alta fidelidade em formato HTML/CSS interativo para demonstrar os principais fluxos do aplicativo. O design foi concebido com foco em acessibilidade visual, utilizando tipografia legível, botões de toque amplo e cores semânticas fortes para auxiliar o público idoso.
 
 *O arquivo executável do protótipo encontra-se na raiz deste repositório como `prototipo.html`.*
 
-## 2. Telas Desenvolvidas
+## Telas Desenvolvidas
 
 ### Tela 1: Dashboard Diário
 Painel principal focado na organização da rotina do paciente.

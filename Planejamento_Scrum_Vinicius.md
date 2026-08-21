@@ -2,14 +2,13 @@
 
 > **Documentação referente à Tarefa 6**  
 > **Responsável:** Vinícius (viniciusgabrielos)  
-> **Tema:** 7 - Saúde: Uso de Medicamentos  
 
 ---
 
-## 1. Introdução e Justificativa da Metodologia
+## Introdução e Justificativa da Metodologia
 Para organizar o desenvolvimento do sistema, optamos por trabalhar com o framework **Scrum** em vez do Kanban. A justificativa para essa escolha é que o Scrum se encaixa perfeitamente na proposta de transformar um projeto grande em entregas incrementais (Sprints), permitindo desenvolver e avaliar o software aos poucos, gerando valor para o paciente desde a primeira entrega.
 
-## 2. Planning Poker e Estimativas
+## Planning Poker e Estimativas
 As 10 User Stories definidas foram estimadas em conjunto pela equipe utilizando o Planning Poker. Os *Story Points* abaixo representam a complexidade relativa de cada funcionalidade (esforço e incerteza), e não horas de trabalho.
 
 | Código | User Story | Prioridade | Story Points |
@@ -26,7 +25,7 @@ As 10 User Stories definidas foram estimadas em conjunto pela equipe utilizando 
 | **US10** | Histórico | 10 | 5 |
 | | **TOTAL** | | **63 Pontos** |
 
-## 3. Product Backlog
+## Product Backlog
 O Product Backlog foi organizado considerando a prioridade, o esforço e o valor entregue ao paciente. 
 *Nota Técnica:* As prioridades foram usadas como guia, mas dependências técnicas foram respeitadas. Por exemplo, a US08 (Cadastro) é a prioridade 8, mas foi movida para o início do desenvolvimento pois todas as outras histórias dependem dela.
 
@@ -43,7 +42,7 @@ O Product Backlog foi organizado considerando a prioridade, o esforço e o valor
 | **9º** | Controle de estoque | 5 | Evitar falta de medicamento |
 | **10º**| Histórico | 5 | Acompanhamento |
 
-## 4. Planejamento das Sprints
+## Planejamento das Sprints
 
 O backlog foi distribuído em cinco Sprints para garantir utilidade real desde a primeira entrega.
 

@@ -6,7 +6,7 @@
 
 ---
 
-## 👥 Personas
+## Personas
 
 ### Persona Principal: Antônio Carlos
 * **Idade:** 72 anos
@@ -52,7 +52,7 @@ Trabalha durante o dia e acompanha o pai à distância. Tem uma rotina corrida e
 
 ---
 
-## 📝 User Stories e Backlog Inicial
+## User Stories e Backlog Inicial
 
 Histórias de usuário priorizadas para o planejamento ágil.
 

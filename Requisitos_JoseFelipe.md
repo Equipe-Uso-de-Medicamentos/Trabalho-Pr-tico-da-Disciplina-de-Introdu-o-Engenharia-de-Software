@@ -2,12 +2,10 @@
 
 > **Documentação referente à Tarefa 3**  
 > **Responsável:** José Felipe dos Santos Souza (felipesouj)  
-> **Tema:** 7 - Saúde: Uso de Medicamentos  
-> **Sistema:** Sistema de Apoio ao Uso Correto de Medicamentos  
 
 ---
 
-## 1. Stakeholders (Partes Interessadas)
+## Stakeholders (Partes Interessadas)
 
 | Stakeholder | Descrição / Interesse no sistema |
 | :--- | :--- |
@@ -17,7 +15,7 @@
 | **Professor da disciplina** | Avaliador do projeto; define os critérios e as entregas esperadas em cada etapa. |
 | **Profissionais de saúde (indireto)** | Destino recomendado em caso de alertas de interação, contraindicação ou alergia; não são usuários diretos do sistema. |
 
-## 2. Requisitos Funcionais (RF)
+## Requisitos Funcionais (RF)
 
 | Código | Descrição | Prioridade | Critério de Aceitação |
 | :---: | :--- | :---: | :--- |
@@ -37,7 +35,7 @@
 | **RF14** | O sistema deve possibilitar uma forma de comunicação entre paciente e cuidador relacionada à rotina de medicamentos. | Média | O cuidador consegue enviar uma mensagem ou lembrete ao paciente a partir do sistema. |
 | **RF15** | O sistema deve apresentar uma interface simplificada, com poucos passos, voltada a usuários com baixa familiaridade tecnológica. | Alta | As principais tarefas do paciente são realizadas em poucas telas/etapas. |
 
-## 3. Requisitos Não Funcionais (RNF)
+## Requisitos Não Funcionais (RNF)
 
 | Código | Categoria | Descrição |
 | :---: | :--- | :--- |
@@ -49,14 +47,14 @@
 | **RNF06** | Disponibilidade | O sistema deve estar disponível continuamente para garantir a entrega de lembretes. |
 | **RNF07** | Portabilidade | O sistema deve poder ser usado em dispositivo móvel (smartphone). |
 
-## 4. Regras de Negócio e Restrições
+## Regras de Negócio e Restrições
 * **RN01:** Todo alerta relacionado a interação medicamentosa, contraindicação ou alergia deve orientar o usuário a procurar um profissional de saúde, sem substituir o aconselhamento médico.
 * **RN02:** O compartilhamento de informações exige autorização prévia e explícita do paciente.
 * **RN03:** Um cadastro de medicamento só é válido quando contém nome, dosagem e finalidade.
 * **RN04:** O cuidador deve ser notificado apenas em situações relevantes, evitando notificações desnecessárias.
 * **Restrição:** O sistema não fornece diagnósticos médicos.
 
-## 5. Requisitos de Dados (Entidades)
+## Requisitos de Dados (Entidades)
 
 | Entidade | Atributos / Informações associadas |
 | :--- | :--- |

@@ -30,7 +30,7 @@ Mora sozinho, é independente e utiliza medicamentos diariamente há vários ano
 
 ---
 
-### Persona Secundária: Mariana Silva
+### Persona Secundária: Letícia Silva
 * **Idade:** 39 anos
 * **Profissão:** Professora
 * **Escolaridade:** Ensino superior completo

@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMED — Protótipos de alta fidelidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16241F;
+    --ink-soft:#4B5B54;
+    --ink-faint:#8A968F;
+    --paper:#F3F6F1;
+    --paper-deep:#EAEFE6;
+    --surface:#FFFFFF;
+    --line:#E1E7DE;
+
+    --primary:#1B4B43;
+    --primary-600:#123531;
+    --primary-soft:#E3ECE8;
+    --primary-soft-line:#C9DBD4;
+
+    --amber:#C79256;
+    --amber-ink:#7A5312;
+    --amber-soft:#F6EFDF;
+    --amber-line:#EBDDBE;
+
+    --coral:#BC5C50;
+    --coral-ink:#8C3D34;
+    --coral-soft:#F5E9E6;
+    --coral-line:#E7D1CB;
+
+    --mint:#2E7D5B;
+    --mint-ink:#1E5D42;
+    --mint-soft:#E2F1E8;
+    --mint-line:#BFE0CC;
+
+    --radius-lg:26px;
+    --radius-md:18px;
+    --radius-sm:12px;
+    --shadow-card: 0 1px 2px rgba(22,36,31,0.03), 0 6px 14px -9px rgba(22,36,31,0.10);
+    --shadow-phone: 0 22px 44px -20px rgba(22,36,31,0.28), 0 8px 18px -10px rgba(22,36,31,0.16);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(27,75,67,0.07) 1.4px, transparent 1.4px) 0 0/26px 26px,
+      linear-gradient(180deg,#EEF2EA 0%, #E7EDE3 100%);
+    color:var(--ink);
+    min-height:100%;
+    padding:56px 24px 120px;
+  }
+
+  /* ---------- Page chrome (not part of the app itself) ---------- */
+  .page-head{
+    max-width:1180px;
+    margin:0 auto 52px;
+    text-align:center;
+  }
+  .page-head .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--primary);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--primary-soft);
+    border:1px solid var(--primary-soft-line);
+    padding:7px 14px;
+    border-radius:999px;
+    margin-bottom:20px;
+  }
+  .page-head h1{
+    font-family:'Nunito',sans-serif;
+    font-weight:600;
+    font-size:clamp(32px,4.4vw,50px);
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    margin-bottom:14px;
+  }
+  .page-head p{
+    max-width:560px;
+    margin:0 auto;
+    color:var(--ink-soft);
+    font-size:15.5px;
+    line-height:1.6;
+  }
+
+  .showcase{
+    max-width:1320px;
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:flex-start;
+    gap:56px;
+  }
+  .slot{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+  }
+  .slot .tag{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Inter',sans-serif;
+  }
+  .slot .tag .num{
+    width:26px; height:26px;
+    border-radius:50%;
+    background:var(--primary);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12.5px; font-weight:700;
+  }
+  .slot .tag .txt strong{
+    display:block;
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .slot .tag .txt span{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-faint);
+  }
+
+  /* ---------- Phone frame ---------- */
+  .phone{
+    width:380px;
+    background:#0F1613;
+    border-radius:52px;
+    padding:14px;
+    box-shadow:var(--shadow-phone);
+  }
+  .phone-inner{
+    position:relative;
+    width:100%;
+    height:790px;
+    background:var(--paper);
+    border-radius:38px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .statusbar{
+    flex:0 0 auto;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink);
+    background:transparent;
+    position:relative;
+    z-index:5;
+  }
+  .statusbar .dot{
+    position:absolute;
+    top:8px; left:50%;
+    transform:translateX(-50%);
+    width:84px; height:22px;
+    background:#0F1613;
+    border-radius:14px;
+  }
+  .statusbar .glyphs{ display:flex; align-items:center; gap:5px; }
+  .statusbar .glyphs .icon{ width:16px; height:16px; }
+
+  .screen{
+    flex:1 1 auto;
+    overflow-y:auto;
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+  .screen::-webkit-scrollbar{display:none;}
+
+  .bottomnav{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    padding:10px 6px 14px;
+    background:var(--surface);
+    border-top:1px solid var(--line);
+  }
+  .navitem{
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    color:var(--ink-faint);
+    font-size:10.5px;
+    font-weight:600;
+    width:64px;
+  }
+  .navitem .icon{ width:22px; height:22px; }
+  .navitem.active{ color:var(--primary); }
+  .navitem.active .icon-wrap{
+    background:var(--primary-soft);
+    border-radius:10px;
+  }
+  .icon-wrap{ padding:4px 14px; }
+
+  /* ---------- Generic type / icon utility ---------- */
+  .icon{ width:100%; height:100%; display:block; }
+  .icon svg{ width:100%; height:100%; }
+
+  h1,h2,h3{ font-family:'Nunito',sans-serif; }
+
+  /* ---------- Shared components ---------- */
+  .section{ padding:20px 22px; }
+  .section + .section{ padding-top:0; }
+
+  .row-between{ display:flex; align-items:center; justify-content:space-between; }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-card);
+  }
+
+  .btn{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    border:none;
+    border-radius:var(--radius-sm);
+    padding:14px 18px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn .icon{ width:18px; height:18px; }
+  .btn-block{ width:100%; }
+  .btn-primary{ background:var(--primary); color:#fff; }
+  .btn-primary[disabled]{ opacity:.4; cursor:not-allowed; }
+  .btn-inverse{ background:#fff; color:var(--primary-600); }
+  .btn-outline{ background:transparent; color:var(--ink); border:1.5px solid var(--line); }
+  .btn-outline-inverse{ background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,0.45); }
+  .btn-ghost{ background:transparent; color:var(--primary-600); padding:8px 4px; }
+  .btn-sm{ padding:9px 14px; font-size:13px; border-radius:10px; }
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+    font-weight:700;
+    padding:6px 10px 6px 8px;
+    border-radius:999px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .badge .icon{ width:13px; height:13px; }
+  .badge.taken{ background:var(--mint-soft); color:var(--mint-ink); border-color:var(--mint-line); }
+  .badge.pending{ background:var(--amber-soft); color:var(--amber-ink); border-color:var(--amber-line); }
+  .badge.late{ background:var(--coral-soft); color:var(--coral-ink); border-color:var(--coral-line); }
+
+  /* ---------- Blister strip (signature element) ---------- */
+  .blister{
+    display:flex;
+    gap:8px;
+  }
+  .bubble{
+    position:relative;
+    flex:1;
+    aspect-ratio:1/1;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .bubble .icon{ width:52%; height:52%; }
+  .bubble.taken{ background:var(--mint); color:#fff; }
+  .bubble.late{ background:var(--coral); color:#fff; }
+  .bubble.pending{ background:var(--amber-soft); color:var(--amber-ink); border:1.5px dashed var(--amber-line); }
+  .bubble.upcoming{ background:var(--paper-deep); color:var(--ink-faint); border:1.5px solid var(--line); }
+  .bubble.off{ background:var(--paper-deep); border:1.5px solid var(--line); }
+  .bubble-label{
+    text-align:center;
+    font-size:10px;
+    font-weight:700;
+    color:var(--ink-faint);
+    margin-top:6px;
+  }
+
+  /* ============================================================
+     SCREEN 1 — DASHBOARD
+     ============================================================ */
+  .greet-row{ display:flex; align-items:flex-start; justify-content:space-between; }
+  .greet-row h1{ font-size:24px; font-weight:600; color:var(--ink); line-height:1.15; }
+  .greet-row .date{ font-size:13.5px; color:var(--ink-soft); margin-top:5px; font-weight:500; }
+  .bell-btn{
+    position:relative;
+    width:42px; height:42px;
+    border-radius:13px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto;
+  }
+  .bell-btn .icon{ width:19px; height:19px; color:var(--ink); }
+  .bell-btn .ping{
+    position:absolute; top:9px; right:10px;
+    width:8px; height:8px; border-radius:50%;
+    background:var(--coral); border:2px solid var(--surface);
+  }
+
+  /* ---------- Elementos de gamificação ---------- */
+  .date-row{ display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap; }
+  .chip{
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:11px; font-weight:800;
+    padding:4px 9px; border-radius:999px;
+    border:1px solid transparent;
+  }
+  .chip .icon{ width:11px; height:11px; }
+  .chip-streak{ background:var(--amber-soft); color:var(--amber-ink); border-color:var(--amber-line); }
+  .chip-points{ background:var(--primary-soft); color:var(--primary-600); border-color:var(--primary-soft-line); }
+
+  .xp-track{ height:8px; border-radius:999px; background:var(--paper-deep); overflow:hidden; }
+  .xp-fill{ height:100%; border-radius:999px; background:var(--primary); }
+  .level-card{ margin-top:18px; padding:16px; }
+  .level-card .row-between{ margin-bottom:9px; }
+  .level-card .name{ font-size:14px; font-weight:800; color:var(--ink); display:flex; align-items:center; gap:7px; }
+  .level-card .name .icon{ width:16px; height:16px; color:var(--amber-ink); }
+  .level-card .xp-label{ font-size:11.5px; color:var(--ink-soft); font-weight:600; margin-top:7px; }
+
+  .badges-row{ display:flex; gap:9px; margin-top:14px; overflow-x:auto; }
+  .badge-chip{
+    flex:0 0 auto; width:64px;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    padding:10px 6px;
+    background:var(--paper-deep); border:1px solid var(--line); border-radius:14px;
+    text-align:center;
+  }
+  .badge-chip.locked{ opacity:.45; }
+  .badge-chip .ic{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .badge-chip .ic .icon{ width:17px; height:17px; color:#fff; }
+  .badge-chip span{ font-size:9.5px; font-weight:700; color:var(--ink-soft); line-height:1.2; }
+
+  .toast-xp{
+    position:absolute;
+    font-size:13px; font-weight:800; color:var(--mint-ink);
+    background:var(--mint-soft); border:1px solid var(--mint-line);
+    padding:4px 10px; border-radius:999px;
+    pointer-events:none;
+    opacity:0;
+    z-index:20;
+  }
+  .toast-xp.show{ animation: toastFloat 1.1s ease-out forwards; }
+  @keyframes toastFloat{
+    0%{ opacity:0; transform:translateY(4px); }
+    20%{ opacity:1; transform:translateY(0); }
+    75%{ opacity:1; transform:translateY(-14px); }
+    100%{ opacity:0; transform:translateY(-22px); }
+  }
+
+  .progress-card{ padding:18px 18px 16px; margin-top:18px; }
+  .progress-card .row-between{ margin-bottom:14px; }
+  .progress-card .label{ font-size:13px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em; }
+  .progress-card .frac{ font-family:'Nunito',sans-serif; font-size:19px; font-weight:600; color:var(--ink); }
+  .progress-legend{ display:flex; gap:14px; margin-top:12px; flex-wrap:wrap; }
+  .legend-item{ display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--ink-soft); font-weight:600; }
+  .legend-dot{ width:9px; height:9px; border-radius:3px; }
+
+  .next-card{
+    margin-top:16px;
+    background:linear-gradient(150deg, var(--primary) 0%, var(--primary-600) 100%);
+    border-radius:var(--radius-lg);
+    padding:20px;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+  }
+  .next-card::after{
+    content:"";
+    position:absolute; right:-30px; top:-30px;
+    width:140px; height:140px; border-radius:50%;
+    background:rgba(255,255,255,0.06);
+  }
+  .next-eyebrow{ font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,0.72); display:flex; align-items:center; gap:7px; }
+  .next-eyebrow .icon{ width:13px; height:13px; }
+  .next-main{ display:flex; align-items:center; gap:14px; margin-top:12px; }
+  .pill-swatch{
+    width:50px; height:50px; border-radius:14px;
+    background:rgba(255,255,255,0.14);
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto;
+  }
+  .pill-swatch .icon{ width:26px; height:26px; }
+  .next-main h3{ font-size:19px; font-weight:600; }
+  .next-main .sub{ font-size:13px; color:rgba(255,255,255,0.78); margin-top:2px; font-weight:500; }
+  .next-card .btn{ margin-top:18px; }
+
+  .alert-strip{
+    margin-top:16px;
+    background:var(--coral-soft);
+    border:1px solid var(--coral-line);
+    border-radius:var(--radius-md);
+    padding:13px 14px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    cursor:pointer;
+  }
+  .alert-strip .icon-circle{
+    width:34px; height:34px; border-radius:10px;
+    background:var(--coral); color:#fff;
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .alert-strip .icon-circle .icon{ width:17px; height:17px; }
+  .alert-strip .txt strong{ display:block; font-size:13.5px; color:var(--coral-ink); font-weight:700; }
+  .alert-strip .txt span{ font-size:12px; color:var(--ink-soft); }
+  .alert-strip .chev{ margin-left:auto; width:16px; height:16px; color:var(--coral-ink); flex:0 0 auto; }
+
+  .sec-title-row{ display:flex; align-items:baseline; justify-content:space-between; margin:26px 0 12px; }
+  .sec-title-row h2{ font-size:17px; font-weight:600; color:var(--ink); }
+  .sec-title-row a{ font-size:12.5px; font-weight:700; color:var(--primary-600); text-decoration:none; display:flex; align-items:center; gap:3px; }
+  .sec-title-row a .icon{ width:13px; height:13px; }
+
+  .med-list{ display:flex; flex-direction:column; gap:10px; }
+  .med-card{
+    display:flex; align-items:center; gap:12px;
+    padding:13px;
+  }
+  .med-card.is-late{ border-color:var(--coral-line); background:linear-gradient(0deg, var(--coral-soft), var(--coral-soft)), var(--surface); background-blend-mode:normal; }
+  .med-icon{
+    width:44px; height:44px; border-radius:13px;
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto;
+  }
+  .med-icon .icon{ width:22px; height:22px; }
+  .tone-a{ background:var(--primary-soft); color:var(--primary-600); }
+  .tone-b{ background:#EAE4F5; color:#5B3C99; }
+  .tone-c{ background:var(--amber-soft); color:var(--amber-ink); }
+  .tone-d{ background:#E4EEF6; color:#245A87; }
+  .med-body{ flex:1 1 auto; min-width:0; }
+  .med-body strong{ display:block; font-size:14.5px; font-weight:700; color:var(--ink); }
+  .med-body .meta{ font-size:12px; color:var(--ink-soft); margin-top:2px; font-weight:500; display:flex; align-items:center; gap:5px; }
+  .med-body .meta .icon{ width:12px; height:12px; }
+  .med-side{ display:flex; flex-direction:column; align-items:flex-end; gap:7px; flex:0 0 auto; }
+  .mark-link{ font-size:11.5px; font-weight:700; color:var(--primary-600); background:none; border:none; cursor:pointer; }
+
+  .history-card{
+    margin-top:22px;
+    display:flex; align-items:center; gap:13px;
+    padding:15px;
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+  }
+  .history-card .icon-circle{
+    width:38px; height:38px; border-radius:11px;
+    background:var(--surface); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .history-card .icon-circle .icon{ width:18px; height:18px; color:var(--primary-600); }
+  .history-card .txt strong{ font-size:13.5px; font-weight:700; display:block; }
+  .history-card .txt span{ font-size:11.5px; color:var(--ink-soft); }
+  .history-card .chev{ margin-left:auto; width:16px; height:16px; color:var(--ink-faint); }
+
+  /* ============================================================
+     SCREEN 2 — ALERTA DE INTERAÇÃO
+     ============================================================ */
+  .alert-header{
+    display:flex; align-items:center; gap:12px;
+    padding:4px 4px 0;
+  }
+  .icon-btn{
+    width:38px; height:38px; border-radius:11px;
+    background:var(--surface); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .icon-btn .icon{ width:18px; height:18px; }
+  .alert-header h1{ font-size:16px; font-weight:700; font-family:'Inter',sans-serif; color:var(--ink); }
+
+  .alert-hero{ text-align:center; padding:22px 8px 6px; }
+  .hero-ring{
+    width:82px; height:82px; margin:0 auto 16px;
+    border-radius:50%;
+    background:var(--coral-soft);
+    border:1.5px solid var(--coral-line);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-ring .icon{ width:38px; height:38px; color:var(--coral); }
+  .alert-hero h2{ font-size:21px; font-weight:600; color:var(--ink); line-height:1.25; }
+  .alert-hero p{ font-size:13.5px; color:var(--ink-soft); margin-top:6px; font-weight:500; }
+
+  .pair-row{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    margin-top:22px;
+  }
+  .pair-chip{
+    flex:1 1 0;
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:14px 10px; text-align:center;
+  }
+  .pair-chip .med-icon{ margin:0 auto 8px; }
+  .pair-chip strong{ display:block; font-size:12.5px; font-weight:700; }
+  .pair-chip span{ font-size:11px; color:var(--ink-soft); }
+  .pair-link{ flex:0 0 auto; width:26px; height:26px; color:var(--coral); }
+
+  .risk-block{ margin-top:24px; }
+  .risk-block .row-between{ margin-bottom:9px; }
+  .risk-block .label{ font-size:12.5px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em; }
+  .risk-value{ font-size:13.5px; font-weight:800; color:var(--amber-ink); display:flex; align-items:center; gap:6px; }
+  .risk-value .icon{ width:14px; height:14px; }
+  .risk-track{ display:flex; gap:5px; }
+  .risk-seg{ flex:1; height:9px; border-radius:5px; background:var(--paper-deep); }
+  .risk-seg.on.low{ background:var(--mint); }
+  .risk-seg.on.mid{ background:var(--amber); }
+  .risk-seg.on.high{ background:var(--coral); }
+  .risk-labels{ display:flex; justify-content:space-between; margin-top:6px; }
+  .risk-labels span{ font-size:10.5px; font-weight:700; color:var(--ink-faint); }
+
+  .explain-card{ margin-top:22px; padding:16px; }
+  .explain-card .row-between{ align-items:flex-start; margin-bottom:8px; }
+  .explain-card h3{ font-size:14px; font-weight:700; font-family:'Inter',sans-serif; color:var(--ink); }
+  .explain-card p{ font-size:13.5px; line-height:1.65; color:var(--ink-soft); }
+
+  .rec-box{
+    margin-top:14px;
+    background:var(--primary-soft);
+    border:1px solid var(--primary-soft-line);
+    border-radius:var(--radius-md);
+    padding:14px;
+    display:flex; gap:11px;
+  }
+  .rec-box .icon-circle{
+    width:32px; height:32px; border-radius:9px; background:var(--primary); color:#fff;
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .rec-box .icon-circle .icon{ width:16px; height:16px; }
+  .rec-box p{ font-size:13px; color:var(--primary-600); font-weight:600; line-height:1.55; }
+
+  .disclaimer{
+    margin-top:18px;
+    font-size:11.5px; color:var(--ink-faint); line-height:1.6;
+    padding:0 2px;
+  }
+
+  .confirm-row{
+    margin-top:20px;
+    display:flex; align-items:flex-start; gap:10px;
+    padding:14px;
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md);
+  }
+  .checkbox{
+    width:21px; height:21px; border-radius:6px; border:2px solid var(--line);
+    flex:0 0 auto; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:.15s ease;
+  }
+  .checkbox .icon{ width:13px; height:13px; color:#fff; opacity:0; transition:.15s ease; }
+  .checkbox.checked{ background:var(--primary); border-color:var(--primary); }
+  .checkbox.checked .icon{ opacity:1; }
+  .confirm-row label{ font-size:13px; font-weight:600; color:var(--ink); line-height:1.5; cursor:pointer; }
+
+  .alert-actions{ margin-top:16px; display:flex; flex-direction:column; gap:10px; }
+
+  /* ============================================================
+     SCREEN 3 — PESSOA DE CONFIANÇA
+     ============================================================ */
+  .trust-head h1{ font-size:22px; font-weight:600; color:var(--ink); }
+  .trust-head p{ font-size:13px; color:var(--ink-soft); margin-top:5px; font-weight:500; line-height:1.5; }
+
+  .adh-card{
+    margin-top:18px;
+    background:linear-gradient(150deg, var(--primary) 0%, var(--primary-600) 100%);
+    border-radius:var(--radius-lg);
+    padding:20px;
+    color:#fff;
+  }
+  .adh-top{ display:flex; align-items:flex-end; justify-content:space-between; }
+  .adh-top .lab{ font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:rgba(255,255,255,0.72); }
+  .adh-num{ font-family:'Nunito',sans-serif; font-size:44px; font-weight:600; line-height:1; margin-top:6px; }
+  .adh-badge{ background:rgba(255,255,255,0.14); border-radius:999px; padding:6px 12px; font-size:11.5px; font-weight:700; display:flex; align-items:center; gap:5px; }
+  .adh-badge .icon{ width:12px; height:12px; }
+  .adh-stats{ display:flex; gap:18px; margin-top:16px; }
+  .adh-stat{ display:flex; align-items:center; gap:7px; }
+  .adh-stat .icon{ width:15px; height:15px; }
+  .adh-stat span{ font-size:12.5px; font-weight:600; color:rgba(255,255,255,0.9); }
+
+  .week-strip{ margin-top:18px; }
+  .week-grid{ display:flex; gap:7px; }
+  .week-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; }
+
+  .people-section .sec-title-row{ margin-top:24px; }
+  .person-card{
+    display:flex; align-items:center; gap:12px;
+    padding:13px;
+  }
+  .avatar{
+    width:44px; height:44px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Nunito',sans-serif; font-weight:600; font-size:15px;
+    flex:0 0 auto; color:#fff;
+  }
+  .person-body{ flex:1 1 auto; min-width:0; }
+  .person-body strong{ font-size:14px; font-weight:700; display:block; }
+  .person-body .rel{ font-size:12px; color:var(--ink-soft); font-weight:500; margin-top:1px; }
+  .person-body .note{ font-size:11px; color:var(--ink-faint); font-weight:600; margin-top:4px; display:flex; align-items:center; gap:4px; }
+  .person-body .note .icon{ width:11px; height:11px; }
+  .person-side{ display:flex; align-items:center; gap:10px; flex:0 0 auto; }
+
+  .switch{ width:38px; height:22px; border-radius:999px; background:var(--primary); position:relative; cursor:pointer; flex:0 0 auto; }
+  .switch::after{ content:""; position:absolute; top:2px; right:2px; width:18px; height:18px; border-radius:50%; background:#fff; transition:.15s ease; }
+  .switch.off{ background:var(--line); }
+  .switch.off::after{ right:18px; }
+
+  .add-person{
+    margin-top:10px;
+    border:1.5px dashed var(--line);
+    border-radius:var(--radius-lg);
+    padding:15px;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    color:var(--primary-600); font-weight:700; font-size:13.5px;
+    cursor:pointer; background:transparent;
+  }
+  .add-person .icon{ width:17px; height:17px; }
+
+  .share-btn{ margin-top:22px; }
+
+  /* ---------- Mascote (amigo acompanhante) ---------- */
+  .mascot-fab{
+    position:absolute;
+    top:38px; right:6px;
+    z-index:8;
+    display:flex;
+    flex-direction:row-reverse;
+    align-items:flex-end;
+    gap:6px;
+    pointer-events:none;
+  }
+  .mascot-avatar{
+    width:60px; height:78px;
+    flex:0 0 auto;
+    filter:drop-shadow(0 8px 8px rgba(18,53,49,0.2));
+  }
+  .mascot-figure{
+    animation: mascotBounce 3.4s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  .mascot-arm-move{
+    animation: mascotArmWave 2.2s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 100% 0%;
+  }
+  .mascot-arm-move-l{
+    animation: mascotArmWave2 2.2s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 0% 0%;
+  }
+  .mascot-sparkle{ animation: mascotSparkle 2.2s ease-in-out infinite; opacity:0; }
+  .mascot-sparkle.d2{ animation-delay:.5s; }
+  @keyframes mascotBounce{
+    0%,100%{ transform:translateY(0) rotate(-1deg); }
+    50%{ transform:translateY(-3px) rotate(1deg); }
+  }
+  @keyframes mascotArmWave{
+    0%,100%{ transform:rotate(-4deg); }
+    50%{ transform:rotate(7deg); }
+  }
+  @keyframes mascotArmWave2{
+    0%,100%{ transform:rotate(3deg); }
+    50%{ transform:rotate(-2deg); }
+  }
+  @keyframes mascotSparkle{
+    0%,100%{ opacity:0; transform:scale(.6); }
+    50%{ opacity:.75; transform:scale(1); }
+  }
+  .mascot-bubble{
+    max-width:112px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:8px 11px;
+    font-size:10.6px;
+    font-weight:700;
+    line-height:1.35;
+    color:var(--ink);
+    box-shadow:var(--shadow-card);
+    position:relative;
+    margin-bottom:14px;
+  }
+  .mascot-bubble::after{
+    content:"";
+    position:absolute;
+    bottom:14px; right:-5px;
+    transform:rotate(45deg);
+    width:9px; height:9px;
+    background:var(--surface);
+    border-right:1px solid var(--line);
+    border-top:1px solid var(--line);
+  }
+  .mascot-tag{
+    position:absolute;
+    bottom:-3px; left:50%;
+    transform:translateX(-50%);
+    background:var(--primary);
+    color:#fff;
+    font-size:7px;
+    font-weight:800;
+    letter-spacing:.03em;
+    padding:1.5px 5px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="eyebrow"><span class="icon" data-icon="shield" style="width:13px;height:13px"></span> Projeto de Engenharia de Software · UFCA</div>
+  <h1>IMED — cuidado com seus horários</h1>
+  <p>Três telas de alta fidelidade do aplicativo de acompanhamento de medicamentos: painel diário, alerta de interação e acompanhamento por pessoa de confiança.</p>
+</div>
+
+<div class="showcase">
+
+  <!-- ================= SCREEN 1 ================= -->
+  <div class="slot">
+    <div class="tag">
+      <div class="num">1</div>
+      <div class="txt"><strong>Dashboard diário</strong><span>Painel principal de medicamentos</span></div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="dot"></div>
+          <div class="glyphs">
+            <span class="icon" data-icon="signal"></span>
+            <span class="icon" data-icon="wifi"></span>
+            <span class="icon" data-icon="battery"></span>
+          </div>
+        </div>
+
+        <div class="mascot-fab">
+          <div class="mascot-avatar">
+            <svg viewBox="0 0 100 130" width="100%" height="100%">
+              <defs>
+                <linearGradient id="gA1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#F5D49B"/>
+                  <stop offset="1" style="stop-color:var(--amber)"/>
+                </linearGradient>
+                <linearGradient id="gT1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#3E8776"/>
+                  <stop offset="1" style="stop-color:var(--primary)"/>
+                </linearGradient>
+                <clipPath id="body1"><rect x="23" y="18" width="54" height="76" rx="27"/></clipPath>
+              </defs>
+
+              <ellipse cx="50" cy="121" rx="21" ry="5" fill="#0F2A26" opacity="0.18"/>
+
+              <g class="mascot-figure">
+                <rect x="36" y="85" width="11" height="25" rx="5.5" fill="var(--primary-600)" transform="rotate(-7 41 85)"/>
+                <rect x="53" y="85" width="11" height="25" rx="5.5" fill="var(--primary-600)" transform="rotate(7 58 85)"/>
+                <ellipse cx="38" cy="112" rx="8" ry="4" fill="#0F2A26"/>
+                <ellipse cx="62" cy="112" rx="8" ry="4" fill="#0F2A26"/>
+
+                <g class="mascot-arm-move-l">
+                  <rect x="13" y="52" width="12" height="29" rx="6" fill="var(--amber)" transform="rotate(14 19 52)"/>
+                  <circle cx="23" cy="79" r="7" fill="#F5D49B"/>
+                </g>
+
+                <g clip-path="url(#body1)">
+                  <rect x="23" y="18" width="27" height="76" fill="url(#gA1)"/>
+                  <rect x="50" y="18" width="27" height="76" fill="url(#gT1)"/>
+                </g>
+                <rect x="23.5" y="18.5" width="53" height="75" rx="26.5" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1"/>
+                <ellipse cx="37" cy="29" rx="10" ry="15" fill="#fff" opacity="0.22" transform="rotate(-12 37 29)"/>
+
+                <path d="M32 35 q4 -6 9 -4" stroke="#123531" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                <path d="M59 32 q5 -3 9 3" stroke="#123531" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                <circle cx="38" cy="43" r="6.6" fill="#fff"/>
+                <circle cx="40.2" cy="44.4" r="3.3" fill="#16241F"/>
+                <circle cx="41.6" cy="42.4" r="1.1" fill="#fff"/>
+                <circle cx="62" cy="43" r="6.6" fill="#fff"/>
+                <circle cx="64.2" cy="44.4" r="3.3" fill="#16241F"/>
+                <circle cx="65.6" cy="42.4" r="1.1" fill="#fff"/>
+                <ellipse cx="29" cy="53" rx="4.4" ry="3" fill="var(--coral)" opacity="0.4"/>
+                <ellipse cx="71" cy="53" rx="4.4" ry="3" fill="var(--coral)" opacity="0.4"/>
+                <path d="M33 57 Q50 69 67 57" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+
+                <circle cx="50" cy="71" r="9" fill="#fff"/>
+                <rect x="47" y="66" width="6" height="10" rx="1.5" fill="var(--coral)"/>
+                <rect x="45" y="68" width="10" height="6" rx="1.5" fill="var(--coral)"/>
+
+                <g class="mascot-arm-move">
+                  <rect x="74" y="34" width="12" height="30" rx="6" fill="var(--primary)" transform="rotate(-28 80 34)"/>
+                  <circle cx="91" cy="19" r="8" fill="#3E8776"/>
+                  <rect x="88" y="8" width="6" height="13" rx="3" fill="#3E8776"/>
+                </g>
+                <path class="mascot-sparkle" d="M98 4 l1.3 3.1 3.1 1.3-3.1 1.3L98 12.8l-1.3-3.1-3.1-1.3 3.1-1.3z" fill="var(--amber)"/>
+                <path class="mascot-sparkle d2" d="M99 20 l1 2.2 2.2 1-2.2 1-1 2.2-1-2.2-2.2-1 2.2-1z" fill="var(--mint)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="mascot-bubble">Oi Gledson! Já são 3 hoje 👍<span class="mascot-tag">IMED</span></div>
+        </div>
+
+        <div class="screen">
+          <div class="section" style="padding-bottom:0">
+            <div class="greet-row">
+              <div>
+                <h1>Bom dia, Gledson</h1>
+                <div class="date-row">
+                  <span class="date">Quarta-feira, 19 de agosto</span>
+                  <span class="chip chip-streak"><span class="icon" data-icon="flame"></span>5 dias seguidos</span>
+                </div>
+              </div>
+              <button class="bell-btn"><span class="icon" data-icon="bell"></span><span class="ping"></span></button>
+            </div>
+
+            <div class="card progress-card" id="progressCard" style="position:relative">
+              <div class="row-between">
+                <span class="label">Progresso de hoje</span>
+                <span style="display:flex; align-items:center; gap:8px">
+                  <span class="chip chip-points"><span class="icon" data-icon="star"></span>128 pts</span>
+                  <span class="frac">3 de 5</span>
+                </span>
+              </div>
+              <div class="blister">
+                <div class="bubble taken"><span class="icon" data-icon="check"></span></div>
+                <div class="bubble taken"><span class="icon" data-icon="check"></span></div>
+                <div class="bubble late"><span class="icon" data-icon="alert"></span></div>
+                <div class="bubble pending"><span class="icon" data-icon="clock"></span></div>
+                <div class="bubble pending"><span class="icon" data-icon="clock"></span></div>
+              </div>
+              <div class="progress-legend">
+                <div class="legend-item"><span class="legend-dot" style="background:var(--mint)"></span>Tomado</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--amber)"></span>Pendente</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--coral)"></span>Atrasado</div>
+              </div>
+            </div>
+
+            <div class="next-card">
+              <div class="next-eyebrow"><span class="icon" data-icon="clock"></span>Próximo medicamento</div>
+              <div class="next-main">
+                <div class="pill-swatch"><span class="icon" data-icon="pill"></span></div>
+                <div>
+                  <h3>Losartana 50mg</h3>
+                  <div class="sub">Hoje às 14:00 · em 45 min</div>
+                </div>
+              </div>
+              <button class="btn btn-inverse btn-block" onclick="markTaken(this)">
+                <span class="icon" data-icon="check"></span> Marcar como tomado
+              </button>
+            </div>
+
+            <div class="alert-strip" onclick="document.getElementById('slot2') && document.getElementById('slot2').scrollIntoView({behavior:'smooth'})">
+              <div class="icon-circle"><span class="icon" data-icon="alert"></span></div>
+              <div class="txt">
+                <strong>Possível interação encontrada</strong>
+                <span>Varfarina + Ibuprofeno · toque para revisar</span>
+              </div>
+              <span class="icon chev" data-icon="chevron-right"></span>
+            </div>
+
+            <div class="sec-title-row">
+              <h2>Medicamentos de hoje</h2>
+              <a href="#">Ver todos <span class="icon" data-icon="chevron-right"></span></a>
+            </div>
+
+            <div class="med-list">
+              <div class="card med-card">
+                <div class="med-icon tone-a"><span class="icon" data-icon="pill"></span></div>
+                <div class="med-body">
+                  <strong>Metformina 850mg</strong>
+                  <div class="meta"><span class="icon" data-icon="clock"></span>08:00 · em jejum</div>
+                </div>
+                <div class="med-side">
+                  <span class="badge taken"><span class="icon" data-icon="check"></span>Tomado</span>
+                </div>
+              </div>
+
+              <div class="card med-card">
+                <div class="med-icon tone-b"><span class="icon" data-icon="pill"></span></div>
+                <div class="med-body">
+                  <strong>Losartana 50mg</strong>
+                  <div class="meta"><span class="icon" data-icon="clock"></span>14:00 · com água</div>
+                </div>
+                <div class="med-side">
+                  <span class="badge pending"><span class="icon" data-icon="clock"></span>Pendente</span>
+                  <button class="mark-link" onclick="markTaken(this)">Marcar</button>
+                </div>
+              </div>
+
+              <div class="card med-card is-late">
+                <div class="med-icon tone-d"><span class="icon" data-icon="pill"></span></div>
+                <div class="med-body">
+                  <strong>Varfarina 5mg</strong>
+                  <div class="meta"><span class="icon" data-icon="clock"></span>12:00 · atrasado 2h</div>
+                </div>
+                <div class="med-side">
+                  <span class="badge late"><span class="icon" data-icon="alert"></span>Atrasado</span>
+                  <button class="mark-link" onclick="markTaken(this)">Marcar</button>
+                </div>
+              </div>
+
+              <div class="card med-card">
+                <div class="med-icon tone-c"><span class="icon" data-icon="pill"></span></div>
+                <div class="med-body">
+                  <strong>Sinvastatina 20mg</strong>
+                  <div class="meta"><span class="icon" data-icon="clock"></span>21:00 · antes de dormir</div>
+                </div>
+                <div class="med-side">
+                  <span class="badge pending"><span class="icon" data-icon="clock"></span>Pendente</span>
+                  <button class="mark-link" onclick="markTaken(this)">Marcar</button>
+                </div>
+              </div>
+
+              <div class="card med-card">
+                <div class="med-icon tone-a"><span class="icon" data-icon="pill"></span></div>
+                <div class="med-body">
+                  <strong>Vitamina D 2000UI</strong>
+                  <div class="meta"><span class="icon" data-icon="clock"></span>08:00 · com café da manhã</div>
+                </div>
+                <div class="med-side">
+                  <span class="badge taken"><span class="icon" data-icon="check"></span>Tomado</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="history-card">
+              <div class="icon-circle"><span class="icon" data-icon="history"></span></div>
+              <div class="txt">
+                <strong>Histórico completo</strong>
+                <span>Veja doses dos últimos 30 dias</span>
+              </div>
+              <span class="icon chev" data-icon="chevron-right"></span>
+            </div>
+          </div>
+          <div style="height:18px"></div>
+        </div>
+
+        <div class="bottomnav">
+          <div class="navitem active"><div class="icon-wrap"><span class="icon" data-icon="home"></span></div>Início</div>
+          <div class="navitem"><span class="icon" data-icon="pill"></span>Remédios</div>
+          <div class="navitem"><span class="icon" data-icon="history"></span>Histórico</div>
+          <div class="navitem"><span class="icon" data-icon="users"></span>Confiança</div>
+          <div class="navitem"><span class="icon" data-icon="user"></span>Perfil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCREEN 2 ================= -->
+  <div class="slot" id="slot2">
+    <div class="tag">
+      <div class="num">2</div>
+      <div class="txt"><strong>Alerta de interação</strong><span>Exibido ao detectar risco entre medicamentos</span></div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="dot"></div>
+          <div class="glyphs">
+            <span class="icon" data-icon="signal"></span>
+            <span class="icon" data-icon="wifi"></span>
+            <span class="icon" data-icon="battery"></span>
+          </div>
+        </div>
+
+        <div class="mascot-fab">
+          <div class="mascot-avatar">
+            <svg viewBox="0 0 100 130" width="100%" height="100%">
+              <defs>
+                <linearGradient id="gA2" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#F5D49B"/>
+                  <stop offset="1" style="stop-color:var(--amber)"/>
+                </linearGradient>
+                <linearGradient id="gT2" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#3E8776"/>
+                  <stop offset="1" style="stop-color:var(--primary)"/>
+                </linearGradient>
+                <clipPath id="body2"><rect x="23" y="18" width="54" height="76" rx="27"/></clipPath>
+              </defs>
+
+              <ellipse cx="50" cy="121" rx="21" ry="5" fill="#0F2A26" opacity="0.18"/>
+
+              <g class="mascot-figure">
+                <rect x="36" y="85" width="11" height="25" rx="5.5" fill="var(--primary-600)" transform="rotate(-7 41 85)"/>
+                <rect x="53" y="85" width="11" height="25" rx="5.5" fill="var(--primary-600)" transform="rotate(7 58 85)"/>
+                <ellipse cx="38" cy="112" rx="8" ry="4" fill="#0F2A26"/>
+                <ellipse cx="62" cy="112" rx="8" ry="4" fill="#0F2A26"/>
+
+                <g class="mascot-arm-move-l">
+                  <rect x="15" y="58" width="12" height="26" rx="6" fill="var(--amber)" transform="rotate(20 21 58)"/>
+                  <circle cx="27" cy="82" r="7" fill="#F5D49B"/>
+                </g>
+
+                <g clip-path="url(#body2)">
+                  <rect x="23" y="18" width="27" height="76" fill="url(#gA2)"/>
+                  <rect x="50" y="18" width="27" height="76" fill="url(#gT2)"/>
+                </g>
+                <rect x="23.5" y="18.5" width="53" height="75" rx="26.5" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1"/>
+                <ellipse cx="37" cy="29" rx="10" ry="15" fill="#fff" opacity="0.22" transform="rotate(-12 37 29)"/>
+
+                <path d="M32 33 q4 6 9 5" stroke="#123531" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                <path d="M59 38 q5 -6 9 -5" stroke="#123531" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                <circle cx="38" cy="44" r="6.6" fill="#fff"/>
+                <circle cx="39.6" cy="45.4" r="3.5" fill="#16241F"/>
+                <circle cx="40.9" cy="43.4" r="1.1" fill="#fff"/>
+                <circle cx="62" cy="44" r="6.6" fill="#fff"/>
+                <circle cx="63.6" cy="45.4" r="3.5" fill="#16241F"/>
+                <circle cx="64.9" cy="43.4" r="1.1" fill="#fff"/>
+                <ellipse cx="29" cy="54" rx="4.2" ry="2.8" fill="var(--coral)" opacity="0.35"/>
+                <ellipse cx="71" cy="54" rx="4.2" ry="2.8" fill="var(--coral)" opacity="0.35"/>
+                <path d="M39 60 Q50 63 61 60" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+                <circle cx="50" cy="72" r="9" fill="#fff"/>
+                <rect x="47" y="67" width="6" height="10" rx="1.5" fill="var(--coral)"/>
+                <rect x="45" y="69" width="10" height="6" rx="1.5" fill="var(--coral)"/>
+
+                <g class="mascot-arm-move">
+                  <rect x="76" y="14" width="11" height="36" rx="5.5" fill="var(--primary)" transform="rotate(-4 81 14)"/>
+                  <circle cx="80" cy="12" r="7.5" fill="#3E8776"/>
+                  <rect x="77" y="0" width="6" height="15" rx="3" fill="#3E8776"/>
+                </g>
+                <path class="mascot-sparkle" d="M92 2 l1.3 3.1 3.1 1.3-3.1 1.3L92 10.8l-1.3-3.1-3.1-1.3 3.1-1.3z" fill="var(--coral)"/>
+                <path class="mascot-sparkle d2" d="M94 18 l1 2.2 2.2 1-2.2 1-1 2.2-1-2.2-2.2-1 2.2-1z" fill="var(--amber)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="mascot-bubble">Vamos revisar isso com calma juntos.<span class="mascot-tag">IMED</span></div>
+        </div>
+
+        <div class="screen">
+          <div class="section">
+            <div class="alert-header">
+              <button class="icon-btn"><span class="icon" data-icon="chevron-left"></span></button>
+              <h1>Alerta de interação</h1>
+            </div>
+
+            <div class="alert-hero">
+              <div class="hero-ring"><span class="icon" data-icon="alert"></span></div>
+              <h2>Possível interação<br>identificada</h2>
+              <p>Revise as informações abaixo antes de continuar</p>
+            </div>
+
+            <div class="pair-row">
+              <div class="pair-chip">
+                <div class="med-icon tone-d" style="margin:0 auto 8px"><span class="icon" data-icon="pill"></span></div>
+                <strong>Varfarina</strong>
+                <span>5mg</span>
+              </div>
+              <span class="icon pair-link" data-icon="alert"></span>
+              <div class="pair-chip">
+                <div class="med-icon tone-c" style="margin:0 auto 8px"><span class="icon" data-icon="pill"></span></div>
+                <strong>Ibuprofeno</strong>
+                <span>400mg</span>
+              </div>
+            </div>
+
+            <div class="risk-block">
+              <div class="row-between">
+                <span class="label">Nível de atenção</span>
+                <span class="risk-value"><span class="icon" data-icon="alert"></span>Risco moderado</span>
+              </div>
+              <div class="risk-track">
+                <div class="risk-seg on low"></div>
+                <div class="risk-seg on mid"></div>
+                <div class="risk-seg"></div>
+              </div>
+              <div class="risk-labels"><span>Baixo</span><span>Moderado</span><span>Alto</span></div>
+            </div>
+
+            <div class="card explain-card">
+              <div class="row-between">
+                <h3>O que isso significa</h3>
+                <span class="icon" data-icon="info" style="width:16px;height:16px;color:var(--ink-faint)"></span>
+              </div>
+              <p>O uso combinado de Varfarina e Ibuprofeno pode aumentar o risco de sangramentos. Fique atento a hematomas incomuns, sangue na urina ou fezes escuras, e informe seu médico caso perceba esses sinais.</p>
+            </div>
+
+            <div class="rec-box">
+              <div class="icon-circle"><span class="icon" data-icon="shield"></span></div>
+              <p>Fale com seu médico ou farmacêutico antes de continuar o tratamento com esses medicamentos juntos.</p>
+            </div>
+
+            <p class="disclaimer">Estas informações têm caráter de apoio e não substituem a orientação de um médico ou farmacêutico. Em caso de dúvida, procure um profissional de saúde.</p>
+
+            <div class="confirm-row" onclick="toggleCheck(this)">
+              <div class="checkbox" id="ackbox"><span class="icon" data-icon="check"></span></div>
+              <label>Confirmo que li e entendi este alerta</label>
+            </div>
+
+            <div class="alert-actions">
+              <button class="btn btn-primary btn-block" id="continueBtn" disabled>
+                <span class="icon" data-icon="check"></span> Continuar mesmo assim
+              </button>
+              <button class="btn btn-outline btn-block">
+                <span class="icon" data-icon="info"></span> Consultar mais informações
+              </button>
+              <button class="btn btn-ghost btn-block">
+                <span class="icon" data-icon="chevron-left"></span> Voltar ao início
+              </button>
+            </div>
+          </div>
+          <div style="height:18px"></div>
+        </div>
+
+        <div class="bottomnav">
+          <div class="navitem"><span class="icon" data-icon="home"></span>Início</div>
+          <div class="navitem active"><div class="icon-wrap"><span class="icon" data-icon="pill"></span></div>Remédios</div>
+          <div class="navitem"><span class="icon" data-icon="history"></span>Histórico</div>
+          <div class="navitem"><span class="icon" data-icon="users"></span>Confiança</div>
+          <div class="navitem"><span class="icon" data-icon="user"></span>Perfil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCREEN 3 ================= -->
+  <div class="slot">
+    <div class="tag">
+      <div class="num">3</div>
+      <div class="txt"><strong>Pessoa de confiança</strong><span>Compartilhamento do acompanhamento</span></div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="dot"></div>
+          <div class="glyphs">
+            <span class="icon" data-icon="signal"></span>
+            <span class="icon" data-icon="wifi"></span>
+            <span class="icon" data-icon="battery"></span>
+          </div>
+        </div>
+
+        <div class="mascot-fab">
+          <div class="mascot-avatar">
+            <svg viewBox="0 0 100 130" width="100%" height="100%">
+              <defs>
+                <linearGradient id="gA3" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#F5D49B"/>
+                  <stop offset="1" style="stop-color:var(--amber)"/>
+                </linearGradient>
+                <linearGradient id="gT3" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#3E8776"/>
+                  <stop offset="1" style="stop-color:var(--primary)"/>
+                </linearGradient>
+                <clipPath id="body3"><rect x="23" y="18" width="54" height="76" rx="27"/></clipPath>
+              </defs>
+
+              <ellipse cx="50" cy="121" rx="21" ry="5" fill="#0F2A26" opacity="0.18"/>
+
+              <g class="mascot-figure">
+                <rect x="36" y="85" width="11" height="25" rx="5.5" fill="var(--primary-600)" transform="rotate(-7 41 85)"/>
+                <rect x="53" y="85" width="11" height="25" rx="5.5" fill="var(--primary-600)" transform="rotate(7 58 85)"/>
+                <ellipse cx="38" cy="112" rx="8" ry="4" fill="#0F2A26"/>
+                <ellipse cx="62" cy="112" rx="8" ry="4" fill="#0F2A26"/>
+
+                <g class="mascot-arm-move-l">
+                  <rect x="13" y="52" width="12" height="29" rx="6" fill="var(--amber)" transform="rotate(14 19 52)"/>
+                  <circle cx="23" cy="79" r="7" fill="#F5D49B"/>
+                </g>
+
+                <g clip-path="url(#body3)">
+                  <rect x="23" y="18" width="27" height="76" fill="url(#gA3)"/>
+                  <rect x="50" y="18" width="27" height="76" fill="url(#gT3)"/>
+                </g>
+                <rect x="23.5" y="18.5" width="53" height="75" rx="26.5" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1"/>
+                <ellipse cx="37" cy="29" rx="10" ry="15" fill="#fff" opacity="0.22" transform="rotate(-12 37 29)"/>
+
+                <path d="M32 35 q4 -6 9 -4" stroke="#123531" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                <path d="M59 32 q5 -3 9 3" stroke="#123531" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                <circle cx="38" cy="43" r="6.6" fill="#fff"/>
+                <circle cx="40.2" cy="44.4" r="3.3" fill="#16241F"/>
+                <circle cx="41.6" cy="42.4" r="1.1" fill="#fff"/>
+                <circle cx="62" cy="43" r="6.6" fill="#fff"/>
+                <circle cx="64.2" cy="44.4" r="3.3" fill="#16241F"/>
+                <circle cx="65.6" cy="42.4" r="1.1" fill="#fff"/>
+                <ellipse cx="29" cy="53" rx="4.4" ry="3" fill="var(--coral)" opacity="0.4"/>
+                <ellipse cx="71" cy="53" rx="4.4" ry="3" fill="var(--coral)" opacity="0.4"/>
+                <path d="M31 56 Q50 72 69 56" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+
+                <circle cx="50" cy="71" r="9" fill="#fff"/>
+                <rect x="47" y="66" width="6" height="10" rx="1.5" fill="var(--coral)"/>
+                <rect x="45" y="68" width="10" height="6" rx="1.5" fill="var(--coral)"/>
+
+                <g class="mascot-arm-move">
+                  <rect x="72" y="26" width="12" height="30" rx="6" fill="var(--primary)" transform="rotate(-42 78 26)"/>
+                  <circle cx="95" cy="15" r="8" fill="#3E8776"/>
+                  <path d="M95 6 v6 M89 9 l4 4 M101 9 l-4 4" stroke="#3E8776" stroke-width="3" stroke-linecap="round"/>
+                </g>
+                <path class="mascot-sparkle" d="M100 1 l1.1 2.7 2.7 1.1-2.7 1.1L100 8.6l-1.1-2.7-2.7-1.1 2.7-1.1z" fill="var(--amber)"/>
+                <path class="mascot-sparkle d2" d="M86 3 l0.9 2.1 2.1 0.9-2.1 0.9-0.9 2.1-0.9-2.1-2.1-0.9 2.1-0.9z" fill="var(--mint)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="mascot-bubble">Vou avisar a Maria se algo atrasar 💚<span class="mascot-tag">IMED</span></div>
+        </div>
+
+        <div class="screen">
+          <div class="section">
+            <div class="trust-head">
+              <h1>Pessoa de confiança</h1>
+              <p>Compartilhe seu acompanhamento com um familiar ou cuidador</p>
+            </div>
+
+            <div class="adh-card">
+              <div class="adh-top">
+                <div>
+                  <div class="lab">Adesão aos medicamentos</div>
+                  <div class="adh-num">92%</div>
+                </div>
+                <div class="adh-badge"><span class="icon" data-icon="check"></span>Boa adesão</div>
+              </div>
+              <div class="adh-stats">
+                <div class="adh-stat"><span class="icon" data-icon="check"></span><span>18 de 20 tomados</span></div>
+                <div class="adh-stat"><span class="icon" data-icon="alert"></span><span>2 esquecidos</span></div>
+              </div>
+
+              <div class="week-strip">
+                <div class="week-grid">
+                  <div class="week-col"><div class="bubble taken" style="width:100%"><span class="icon" data-icon="check"></span></div><span class="bubble-label" style="color:rgba(255,255,255,0.7)">Seg</span></div>
+                  <div class="week-col"><div class="bubble taken" style="width:100%"><span class="icon" data-icon="check"></span></div><span class="bubble-label" style="color:rgba(255,255,255,0.7)">Ter</span></div>
+                  <div class="week-col"><div class="bubble late" style="width:100%"><span class="icon" data-icon="alert"></span></div><span class="bubble-label" style="color:rgba(255,255,255,0.7)">Qua</span></div>
+                  <div class="week-col"><div class="bubble taken" style="width:100%"><span class="icon" data-icon="check"></span></div><span class="bubble-label" style="color:rgba(255,255,255,0.7)">Qui</span></div>
+                  <div class="week-col"><div class="bubble taken" style="width:100%"><span class="icon" data-icon="check"></span></div><span class="bubble-label" style="color:rgba(255,255,255,0.7)">Sex</span></div>
+                  <div class="week-col"><div class="bubble late" style="width:100%"><span class="icon" data-icon="alert"></span></div><span class="bubble-label" style="color:rgba(255,255,255,0.7)">Sáb</span></div>
+                  <div class="week-col"><div class="bubble pending" style="width:100%"><span class="icon" data-icon="clock"></span></div><span class="bubble-label" style="color:rgba(255,255,255,0.7)">Dom</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card level-card">
+              <div class="row-between">
+                <span class="name"><span class="icon" data-icon="medal"></span>Nível 3 · Cuidador dedicado</span>
+                <span class="chip chip-points"><span class="icon" data-icon="star"></span>128 pts</span>
+              </div>
+              <div class="xp-track"><div class="xp-fill" style="width:64%"></div></div>
+              <div class="xp-label">Faltam 45 pts para o Nível 4</div>
+
+              <div class="badges-row">
+                <div class="badge-chip">
+                  <div class="ic" style="background:var(--amber)"><span class="icon" data-icon="flame"></span></div>
+                  <span>5 dias seguidos</span>
+                </div>
+                <div class="badge-chip">
+                  <div class="ic" style="background:var(--mint)"><span class="icon" data-icon="star"></span></div>
+                  <span>Semana 100%</span>
+                </div>
+                <div class="badge-chip">
+                  <div class="ic" style="background:var(--primary)"><span class="icon" data-icon="sunrise"></span></div>
+                  <span>Sempre no horário</span>
+                </div>
+                <div class="badge-chip locked">
+                  <div class="ic" style="background:var(--ink-faint)"><span class="icon" data-icon="medal"></span></div>
+                  <span>30 dias seguidos</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="people-section">
+              <div class="sec-title-row">
+                <h2>Quem tem acesso</h2>
+                <a href="#">Gerenciar</a>
+              </div>
+
+              <div class="card person-card">
+                <div class="avatar" style="background:var(--primary)">MS</div>
+                <div class="person-body">
+                  <strong>Maria Silva</strong>
+                  <div class="rel">Filha · Acesso completo</div>
+                  <div class="note"><span class="icon" data-icon="bell"></span>Notificada em atrasos</div>
+                </div>
+                <div class="person-side">
+                  <div class="switch"></div>
+                  <button class="icon-btn" style="width:32px;height:32px"><span class="icon" data-icon="more" style="width:16px;height:16px"></span></button>
+                </div>
+              </div>
+
+              <div class="card person-card" style="margin-top:10px">
+                <div class="avatar" style="background:#5B3C99">AC</div>
+                <div class="person-body">
+                  <strong>Ana Costa</strong>
+                  <div class="rel">Cuidadora · Só leitura</div>
+                  <div class="note"><span class="icon" data-icon="check"></span>Resumo semanal apenas</div>
+                </div>
+                <div class="person-side">
+                  <div class="switch off"></div>
+                  <button class="icon-btn" style="width:32px;height:32px"><span class="icon" data-icon="more" style="width:16px;height:16px"></span></button>
+                </div>
+              </div>
+
+              <button class="add-person"><span class="icon" data-icon="plus"></span>Adicionar pessoa de confiança</button>
+            </div>
+
+            <button class="btn btn-primary btn-block share-btn">
+              <span class="icon" data-icon="share"></span> Compartilhar progresso
+            </button>
+          </div>
+          <div style="height:18px"></div>
+        </div>
+
+        <div class="bottomnav">
+          <div class="navitem"><span class="icon" data-icon="home"></span>Início</div>
+          <div class="navitem"><span class="icon" data-icon="pill"></span>Remédios</div>
+          <div class="navitem"><span class="icon" data-icon="history"></span>Histórico</div>
+          <div class="navitem active"><div class="icon-wrap"><span class="icon" data-icon="users"></span></div>Confiança</div>
+          <div class="navitem"><span class="icon" data-icon="user"></span>Perfil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const ICONS = {
+    bell: '<path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 2 6H4c.5-.5 2-2 2-6z"/><path d="M10 19a2 2 0 0 0 4 0"/>',
+    check: '<path d="M4 12l5 5L20 6"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/>',
+    alert: '<path d="M12 3l9.5 17H2.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><line x1="12" y1="16.7" x2="12" y2="17"/>',
+    pill: '<rect x="4" y="9" width="16" height="6" rx="3" transform="rotate(-45 12 12)"/><line x1="9" y1="9" x2="9" y2="15" transform="rotate(-45 12 12)"/>',
+    'chevron-right': '<path d="M9 6l6 6-6 6"/>',
+    'chevron-left': '<path d="M15 6l-6 6 6 6"/>',
+    home: '<path d="M3 11.5l9-7.5 9 7.5"/><path d="M5.5 10v8.5a1 1 0 0 0 1 1h4.2v-6h2.6v6h4.2a1 1 0 0 0 1-1V10"/>',
+    history: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3.2 2"/>',
+    users: '<circle cx="9" cy="8" r="3"/><path d="M2.5 20c0-3.4 3-6 6.5-6s6.5 2.6 6.5 6"/><circle cx="17.5" cy="9" r="2.3"/><path d="M21.5 20c0-2.7-1.9-5-4.6-5.7"/>',
+    user: '<circle cx="12" cy="8.2" r="4"/><path d="M4.2 20c0-4 3.6-7 7.8-7s7.8 3 7.8 7"/>',
+    info: '<circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16.2"/><line x1="12" y1="7.7" x2="12" y2="8"/>',
+    shield: '<path d="M12 3.2l7.3 2.9v6c0 4.6-3 7.7-7.3 9.2-4.3-1.5-7.3-4.6-7.3-9.2v-6z"/><path d="M8.7 12.2l2.2 2.2 4.4-4.4"/>',
+    plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+    share: '<circle cx="18" cy="5.2" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="18.8" r="2.4"/><line x1="8.2" y1="10.6" x2="15.8" y2="6.6"/><line x1="8.2" y1="13.4" x2="15.8" y2="17.4"/>',
+    more: '<circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/>',
+    flame: '<path d="M12 2.5c1 3 4 4.5 4 8.2a4 4 0 0 1-8 0c0-1 .3-1.8.8-2.6.4.9 1.2 1.4 1.2 1.4-.4-2.3.4-3.6 2-7z" fill="currentColor" stroke="none"/>',
+    star: '<path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1 6-5.2-2.9-5.2 2.9 1-6-4.4-4.2 6-.8z"/>',
+    medal: '<circle cx="12" cy="14" r="6.2"/><path d="M9.4 9.6L7 3.5M14.6 9.6L17 3.5" /><path d="M9.7 13.6l1.6 1.7 2.9-3.2" stroke-width="1.6"/>',
+    sunrise: '<path d="M4 15h16"/><path d="M6.5 15a5.5 5.5 0 0 1 11 0"/><line x1="12" y1="4.5" x2="12" y2="7"/><line x1="5" y1="9.5" x2="6.6" y2="10.8"/><line x1="19" y1="9.5" x2="17.4" y2="10.8"/><line x1="3" y1="18.5" x2="21" y2="18.5"/>',
+    signal: '<line x1="3" y1="17" x2="3" y2="20"/><line x1="8" y1="14" x2="8" y2="20"/><line x1="13" y1="10" x2="13" y2="20"/><line x1="18" y1="6" x2="18" y2="20"/>',
+    wifi: '<path d="M4 9.5a12 12 0 0 1 16 0"/><path d="M7.2 13a8 8 0 0 1 9.6 0"/><path d="M10.4 16.4a4 4 0 0 1 3.2 0"/><line x1="12" y1="19.2" x2="12" y2="19.3"/>',
+    battery: '<rect x="2.5" y="8" width="17" height="8" rx="2"/><line x1="21.3" y1="10.5" x2="21.3" y2="13.5"/><rect x="4.5" y="10" width="12" height="4" rx="1" fill="currentColor" stroke="none"/>'
+  };
+
+  function renderIcons(){
+    document.querySelectorAll('[data-icon]').forEach(el=>{
+      const name = el.getAttribute('data-icon');
+      const sw = el.getAttribute('data-sw') || '1.8';
+      if(ICONS[name]){
+        el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</svg>`;
+      }
+    });
+  }
+  renderIcons();
+
+  function markTaken(btn){
+    const card = btn.closest('.med-card') || btn.closest('.next-card');
+    if(!card) return;
+    const badge = card.querySelector('.badge');
+    if(badge){
+      badge.className = 'badge taken';
+      badge.innerHTML = '<span class="icon" data-icon="check"></span>Tomado';
+    }
+    const markBtn = card.querySelector('.mark-link');
+    if(markBtn) markBtn.remove();
+    if(btn.classList.contains('btn')){
+      btn.innerHTML = '<span class="icon" data-icon="check"></span> Registrado!';
+      btn.disabled = true;
+      btn.style.opacity = '.65';
+    }
+    renderIcons();
+    showXpToast(btn);
+  }
+
+  function showXpToast(originEl){
+    const progressCard = originEl.closest('.phone-inner')?.querySelector('#progressCard');
+    if(!progressCard) return;
+    const toast = document.createElement('span');
+    toast.className = 'toast-xp show';
+    toast.textContent = '+10 pts';
+    toast.style.top = '10px';
+    toast.style.right = '18px';
+    progressCard.appendChild(toast);
+    setTimeout(()=> toast.remove(), 1150);
+    const ptsEl = progressCard.querySelector('.chip-points');
+    if(ptsEl){
+      const current = parseInt(ptsEl.textContent) || 0;
+      ptsEl.innerHTML = '<span class="icon" data-icon="star"></span>' + (current + 10) + ' pts';
+      renderIcons();
+    }
+  }
+
+  function toggleCheck(row){
+    const box = row.querySelector('.checkbox');
+    box.classList.toggle('checked');
+    const btn = document.getElementById('continueBtn');
+    btn.disabled = !box.classList.contains('checked');
+  }
+</script>
+
+</body>
+</html>
